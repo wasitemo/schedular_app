@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Documentation</h1>
+
+    <h2>Authentication</h2>
+
+    <h3>Register</h3>
+    <p>Endpoint: <code>POST /api/register.php</code></p>
+    <p>Request Body:</p>
+    <pre><code>{
+    "username": "your_username",
+    "email": "your_email",
+    "password": "your_password"
+}</code></pre>
+    <p>Response:</p>
+    <pre><code>{
+    "message": "User registered successfully"
+}</code></pre>
+
+    <h3>Login</h3>
+    <p>Endpoint: <code>POST /api/login.php</code></p>
+    <p>Request Body:</p>
+    <pre><code>{
+    "email": "your_email",
+    "password": "your_password"
+}</code></pre>
+    <p>Response:</p>
+    <pre><code>{
+    "message": "Login successful",
+    "token": "your_jwt_token"
+}</code></pre>
+
+    <h2>Tasks</h2>
+
+    <h3>Create Task</h3>
+    <p>Endpoint: <code>POST /api/task.php</code></p>
+    <p>Headers: <code>Authorization: Bearer your_jwt_token</code></p>
+    <p>Request Body:</p>
+    <pre><code>{
+    "category_name": "Category 1",
+    "member": ["username1", "username2"], // Array of usernames
+    "task_name": "Task 1",
+    "frequency": "Daily",
+    "period_count": 1,
+    "date": "2023-10-01",
+    "time": "10:00:00"
+}</code></pre>
+    <p>Response:</p>
+    <pre><code>{
+    "message": "Task added successfully"
+}</code></pre>
+
+    <h3>Update Task</h3>
+    <p>Endpoint: <code>PUT /api/task.php</code></p>
+    <p>Headers: <code>Authorization: Bearer your_jwt_token</code></p>
+    <p>Request Body:</p>
+    <pre><code>{
+    "id": 1,
+    "category_name": "Updated Category",
+    "member": ["username1", "username2"], // Array of usernames
+    "task_name": "Updated Task",
+    "frequency": "Weekly",
+    "period_count": 2,
+    "date": "2023-10-02",
+    "time": "11:00:00"
+}</code></pre>
+    <p>Response:</p>
+    <pre><code>{
+    "message": "Task updated successfully"
+}</code></pre>
+
+    <h3>Delete Task</h3>
+    <p>Endpoint: <code>DELETE /api/task.php</code></p>
+    <p>Headers: <code>Authorization: Bearer your_jwt_token</code></p>
+    <p>Request Body:</p>
+    <pre><code>{
+    "id": 1
+}</code></pre>
+    <p>Response:</p>
+    <pre><code>{
+    "message": "Task deleted successfully"
+}</code></pre>
+
+    <h3>Get Tasks</h3>
+    <p>Endpoint: <code>GET /api/task.php</code></p>
+    <p>Headers: <code>Authorization: Bearer your_jwt_token</code></p>
+    <p>Response:</p>
+    <pre><code>[
+    {
+        "id": 1,
+        "category_name": "Category 1",
+        "member": ["username1", "username2"], // Array of usernames
+        "task_name": "Task 1",
+        "frequency": "Daily",
+        "period_count": 1,
+        "date": "2023-10-01",
+        "time": "10:00:00"
+    },
+    // ...other tasks
+]</code></pre>
+
+    <h2>Database Schema</h2>
+
+    <h3>Users Table</h3>
+    <p>Columns:</p>
+    <ul>
+        <li><code>id</code> INT AUTO_INCREMENT PRIMARY KEY</li>
+        <li><code>username</code> VARCHAR(255) NOT NULL UNIQUE</li>
+        <li><code>email</code> VARCHAR(255) NOT NULL</li>
+        <li><code>password</code> VARCHAR(255) NOT NULL</li>
+    </ul>
+
+    <h3>Tasks Table</h3>
+    <p>Columns:</p>
+    <ul>
+        <li><code>id</code> INT AUTO_INCREMENT PRIMARY KEY</li>
+        <li><code>category_name</code> VARCHAR(255) NOT NULL</li>
+        <li><code>member</code> TEXT NOT NULL (Comma-separated usernames)</li>
+        <li><code>task_name</code> VARCHAR(255) NOT NULL</li>
+        <li><code>frequency</code> VARCHAR(255) NOT NULL</li>
+        <li><code>period_count</code> INT NOT NULL</li>
+        <li><code>date</code> DATE NOT NULL</li>
+        <li><code>time</code> TIME NOT NULL</li>
+    </ul>
+</body>
+</html>
