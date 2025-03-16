@@ -1,42 +1,46 @@
 <?php
-include 'db.php';
-require 'vendor/autoload.php';
-use \Firebase\JWT\JWT;
+include 'config.php';
 
-$data = json_decode(file_get_contents("php://input"));
+try {
+    $data = json_decode(file_get_contents("php://input"));
+    
+    if(!$data || !isset($data->email) || !isset($data->password)) {
+        http_response_code(400);
+        echo json_encode(["message" => "Invalid request data"]);
+        exit;
+    }
 
-$email = $data->email;
-$password = $data->password;
-
-$sql = "SELECT * FROM users WHERE email='$email'";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    if (password_verify($password, $row['password'])) {
-        $key = "your_secret_key";
-        $payload = [
-            "iss" => "http://localhost",
-            "aud" => "http://localhost",
-            "iat" => time(),
-            "nbf" => time(),
-            "exp" => time() + (60*60), // Token expires in 1 hour
-            "data" => [
-                "id" => $row['id'],
-                "username" => $row['username']
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? OR username = ?");
+    $stmt->execute([$data->email, $data->email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if($user && password_verify($data->password, $user['password'])){
+        $token = bin2hex(random_bytes(16));
+        
+        $update = $conn->prepare("UPDATE users SET token = ? WHERE id = ?");
+        $update->execute([$token, $user['id']]);
+        
+        echo json_encode([
+            "message" => "Login berhasil",
+            "token" => $token,
+            "user" => [
+                "id" => $user['id'],
+                "username" => $user['username'],
+                "email" => $user['email']
             ]
-        ];
-
-        $jwt = JWT::encode($payload, $key);
-        echo json_encode(["message" => "Login successful", "token" => $jwt]);
+        ]);
     } else {
         http_response_code(401);
-        echo json_encode(["message" => "Invalid password"]);
+        echo json_encode(["message" => "Email atau password salah"]);
     }
-} else {
-    http_response_code(404);
-    echo json_encode(["message" => "No user found with this email"]);
+} catch(PDOException $e) {
+    http_response_code(500);
+    echo json_encode([
+        "message" => "Database error: " . $e->getMessage(),
+        "error_code" => $e->getCode()
+    ]);
+} catch(Exception $e) {
+    http_response_code(500);
+    echo json_encode(["message" => "General error: " . $e->getMessage()]);
 }
-
-$conn->close();
 ?>
