@@ -156,3 +156,9 @@ All endpoints require a Bearer token in the Authorization header.
 | email     | VARCHAR(50) | UNIQUE, NOT NULL |
 | password  | VARCHAR(255)| NOT NULL         |
 | token     | VARCHAR(255)| NULLABLE         |
+
+# Dependencies
+To handle JWT authentication, install the following package:
+```
+composer require firebase/php-jwt
+```
