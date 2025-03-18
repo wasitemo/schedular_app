@@ -59,7 +59,7 @@
     "categoryname": "category_name",
     "membername": "member_name",
     "taskname": "task_name",
-    "radio": "everyday",
+    "frequency": "everyday",
     "period": 1,
     "selectdate": "YYYY-MM-DD",
     "time": "HH:MM:SS"
@@ -80,7 +80,7 @@
         "categoryname": "category_name",
         "membername": "member_name",
         "taskname": "task_name",
-        "radio": "everyday",
+        "frequency": "everyday",
         "period": 1,
         "selectdate": "YYYY-MM-DD",
         "time": "HH:MM:SS"
@@ -97,7 +97,7 @@
     "categoryname": "category_name",
     "membername": "member_name",
     "taskname": "task_name",
-    "radio": "everyday",
+    "frequency": "everyday",
     "period": 1,
     "selectdate": "YYYY-MM-DD",
     "time": "HH:MM:SS"
@@ -114,6 +114,20 @@
     <p><strong>Response:</strong></p>
     <pre>{
     "message": "Task deleted"
+}</pre>
+
+    <h2>Forgot Password</h2>
+    <p><strong>Endpoint:</strong> /tasks.php?action=forgot_password</p>
+    <p><strong>Method:</strong> POST</p>
+    <p><strong>Request Body:</strong></p>
+    <pre>{
+    "email": "your_email",
+    "username": "your_username",
+    "new_password": "your_new_password"
+}</pre>
+    <p><strong>Response:</strong></p>
+    <pre>{
+    "message": "Password updated successfully"
 }</pre>
 </body>
 </html>
