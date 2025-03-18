@@ -3,10 +3,10 @@ import 'package:schedular_app_flutter/core/error/failure.dart';
 import 'package:schedular_app_flutter/feature/auth/domain/entities/register_entity.dart';
 import 'package:schedular_app_flutter/feature/auth/domain/repositories/register_repository.dart';
 
-class RegisterUser {
+class RegisterUserUseCase {
   final RegisterRepository registerRepository;
 
-  const RegisterUser({required this.registerRepository});
+  const RegisterUserUseCase({required this.registerRepository});
 
   Future<Either<Failure, RegisterEntity>> execute(
       String username, String email, String password) async {
