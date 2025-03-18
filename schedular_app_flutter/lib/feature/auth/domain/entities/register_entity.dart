@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-class Register extends Equatable {
+class RegisterEntity extends Equatable {
   final String username;
   final String email;
   final String password;
 
-  const Register({
+  const RegisterEntity({
     required this.username,
     required this.email,
     required this.password,
