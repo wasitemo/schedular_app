@@ -59,7 +59,7 @@ All endpoints require a Bearer token in the Authorization header.
     "categoryname": "category_name",
     "membername": "member_name",
     "taskname": "task_name",
-    "radio": "everyday",
+    "frequency": "everyday",
     "period": 1,
     "selectdate": "YYYY-MM-DD",
     "time": "HH:MM:SS"
@@ -86,7 +86,7 @@ All endpoints require a Bearer token in the Authorization header.
         "categoryname": "category_name",
         "membername": "member_name",
         "taskname": "task_name",
-        "radio": "everyday",
+        "frequency": "everyday",
         "period": 1,
         "selectdate": "YYYY-MM-DD",
         "time": "HH:MM:SS"
@@ -106,7 +106,7 @@ All endpoints require a Bearer token in the Authorization header.
     "categoryname": "category_name",
     "membername": "member_name",
     "taskname": "task_name",
-    "radio": "everyday",
+    "frequency": "everyday",
     "period": 1,
     "selectdate": "YYYY-MM-DD",
     "time": "HH:MM:SS"
@@ -133,20 +133,40 @@ All endpoints require a Bearer token in the Authorization header.
 }
 ```
 
+## Forgot Password
+**Endpoint:** `/tasks.php?action=forgot_password`  
+**Method:** `POST`  
+
+**Request Body:**
+```json
+{
+    "email": "your_email",
+    "username": "your_username",
+    "new_password": "your_new_password"
+}
+```
+
+**Response:**
+```json
+{
+    "message": "Password updated successfully"
+}
+```
+
 # Database Structure
 
 ## Table: `tasks`
 | Column       | Type                                       | Constraints       |
 |-------------|------------------------------------------|------------------|
-| idtask      | VARCHAR(50)                              | PRIMARY KEY      |
-| userid      | INT(11)                                  | FOREIGN KEY(users.id) |
-| categoryname| VARCHAR(50)                              | NULLABLE         |
-| membername  | VARCHAR(50)                              | NULLABLE         |
-| taskname    | VARCHAR(50)                              | NULLABLE         |
-| radio       | ENUM('everyday','everyweek','everymonth','everyyear') | NULLABLE |
-| period      | INT(11)                                  | NULLABLE         |
-| selectdate  | DATE                                     | NULLABLE         |
-| time        | TIME                                     | NULLABLE         |
+| idtask      | INT(11)                                   | PRIMARY KEY, AUTO_INCREMENT |
+| userid      | INT(11)                                   | FOREIGN KEY(users.id) |
+| categoryname| VARCHAR(50)                               | NULLABLE         |
+| membername  | VARCHAR(50)                               | NULLABLE         |
+| taskname    | VARCHAR(50)                               | NULLABLE         |
+| frequency   | ENUM('everyday','everyweek','everymonth','everyyear') | NULLABLE |
+| period      | INT(11)                                   | NULLABLE         |
+| selectdate  | DATE                                      | NULLABLE         |
+| time        | TIME                                      | NULLABLE         |
 
 ## Table: `users`
 | Column    | Type         | Constraints      |
