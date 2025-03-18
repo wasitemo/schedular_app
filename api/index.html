@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        h2 { color: #555; }
+        pre { background: #f4f4f4; padding: 10px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>API Documentation</h1>
+    
+    <h2>Authentication</h2>
+    <p>All endpoints require a Bearer token in the Authorization header.</p>
+    
+    <h2>Register</h2>
+    <p><strong>Endpoint:</strong> /register.php</p>
+    <p><strong>Method:</strong> POST</p>
+    <p><strong>Request Body:</strong></p>
+    <pre>{
+    "username": "your_username",
+    "email": "your_email",
+    "password": "your_password"
+}</pre>
+    <p><strong>Response:</strong></p>
+    <pre>{
+    "message": "Registrasi berhasil"
+}</pre>
+    
+    <h2>Login</h2>
+    <p><strong>Endpoint:</strong> /login.php</p>
+    <p><strong>Method:</strong> POST</p>
+    <p><strong>Request Body:</strong></p>
+    <pre>{
+    "email": "your_email",
+    "password": "your_password"
+}</pre>
+    <p><strong>Response:</strong></p>
+    <pre>{
+    "message": "Login berhasil",
+    "token": "your_token",
+    "user": {
+        "id": "user_id",
+        "username": "your_username",
+        "email": "your_email"
+    }
+}</pre>
+    
+    <h2>Create Task</h2>
+    <p><strong>Endpoint:</strong> /tasks.php</p>
+    <p><strong>Method:</strong> POST</p>
+    <p><strong>Request Body:</strong></p>
+    <pre>{
+    "idtask": "task_id",
+    "categoryname": "category_name",
+    "membername": "member_name",
+    "taskname": "task_name",
+    "frequency": "everyday",
+    "period": 1,
+    "selectdate": "YYYY-MM-DD",
+    "time": "HH:MM:SS"
+}</pre>
+    <p><strong>Response:</strong></p>
+    <pre>{
+    "message": "Task created"
+}</pre>
+    
+    <h2>Get All Tasks</h2>
+    <p><strong>Endpoint:</strong> /tasks.php</p>
+    <p><strong>Method:</strong> GET</p>
+    <p><strong>Response:</strong></p>
+    <pre>[
+    {
+        "idtask": "task_id",
+        "userid": "user_id",
+        "categoryname": "category_name",
+        "membername": "member_name",
+        "taskname": "task_name",
+        "frequency": "everyday",
+        "period": 1,
+        "selectdate": "YYYY-MM-DD",
+        "time": "HH:MM:SS"
+    },
+    ...
+]</pre>
+    
+    <h2>Update Task</h2>
+    <p><strong>Endpoint:</strong> /tasks.php</p>
+    <p><strong>Method:</strong> PUT</p>
+    <p><strong>Request Body:</strong></p>
+    <pre>{
+    "idtask": "task_id",
+    "categoryname": "category_name",
+    "membername": "member_name",
+    "taskname": "task_name",
+    "frequency": "everyday",
+    "period": 1,
+    "selectdate": "YYYY-MM-DD",
+    "time": "HH:MM:SS"
+}</pre>
+    <p><strong>Response:</strong></p>
+    <pre>{
+    "message": "Task updated"
+}</pre>
+    
+    <h2>Delete Task</h2>
+    <p><strong>Endpoint:</strong> /tasks.php</p>
+    <p><strong>Method:</strong> DELETE</p>
+    <p><strong>Query Parameter:</strong> idtask</p>
+    <p><strong>Response:</strong></p>
+    <pre>{
+    "message": "Task deleted"
+}</pre>
+
+    <h2>Forgot Password</h2>
+    <p><strong>Endpoint:</strong> /tasks.php?action=forgot_password</p>
+    <p><strong>Method:</strong> POST</p>
+    <p><strong>Request Body:</strong></p>
+    <pre>{
+    "email": "your_email",
+    "username": "your_username",
+    "new_password": "your_new_password"
+}</pre>
+    <p><strong>Response:</strong></p>
+    <pre>{
+    "message": "Password updated successfully"
+}</pre>
+</body>
+</html>

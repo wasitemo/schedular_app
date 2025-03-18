@@ -1,157 +1,184 @@
-# API Authentication Documentation
+# API Documentation
 
-## Overview
-Dokumentasi ini menjelaskan API yang digunakan untuk autentikasi pengguna serta pengelolaan data pada tabel `user` dan `post` dengan tema anime. Setelah login, pengguna dapat membuat postingan anime, yang kemudian akan ditampilkan di halaman profil pengguna.
+## Authentication
+All endpoints require a Bearer token in the Authorization header.
 
-## Database Schema
-
-### 1. Tabel `user`
-| Column     | Type         | Description                  |
-|------------|------------|------------------------------|
-| id         | INT (AUTO_INCREMENT, PRIMARY KEY) | ID unik pengguna |
-| username   | VARCHAR(255) | Nama pengguna |
-| email      | VARCHAR(255) | Email pengguna |
-| password   | VARCHAR(255) | Password yang telah di-hash |
-| created_at | TIMESTAMP   | Waktu pembuatan akun |
-
-### 2. Tabel `post` (Tema Anime)
-| Column     | Type         | Description                  |
-|------------|------------|------------------------------|
-| id         | INT (AUTO_INCREMENT, PRIMARY KEY) | ID unik postingan |
-| user_id    | INT         | ID pengguna yang membuat postingan |
-| anime_title | VARCHAR(255) | Judul anime yang dibahas |
-| review     | TEXT        | Ulasan tentang anime |
-| rating     | INT         | Peringkat anime (1-10) |
-| created_at | TIMESTAMP   | Waktu pembuatan postingan |
-
-## API Endpoints
-
-### 1. Register User
-**Endpoint:** `POST /api/register`
+## Register
+**Endpoint:** `/register.php`  
+**Method:** `POST`  
 
 **Request Body:**
 ```json
 {
-  "username": "example_user",
-  "email": "user@example.com",
-  "password": "securepassword"
+    "username": "your_username",
+    "email": "your_email",
+    "password": "your_password"
 }
 ```
 
 **Response:**
 ```json
 {
-  "status": "success",
-  "message": "User registered successfully"
+    "message": "Registrasi berhasil"
 }
 ```
 
-### 2. Login User
-**Endpoint:** `POST /api/login`
+## Login
+**Endpoint:** `/login.php`  
+**Method:** `POST`  
 
 **Request Body:**
 ```json
 {
-  "email": "user@example.com",
-  "password": "securepassword"
+    "email": "your_email",
+    "password": "your_password"
 }
 ```
 
 **Response:**
 ```json
 {
-  "status": "success",
-  "token": "your_jwt_token"
+    "message": "Login berhasil",
+    "token": "your_token",
+    "user": {
+        "id": "user_id",
+        "username": "your_username",
+        "email": "your_email"
+    }
 }
 ```
 
-### 3. Get User Profile
-**Endpoint:** `GET /api/user`
-
-**Headers:**
-```
-Authorization: Bearer your_jwt_token
-```
-
-**Response:**
-```json
-{
-  "id": 1,
-  "username": "example_user",
-  "email": "user@example.com",
-  "created_at": "2025-03-02 12:00:00"
-}
-```
-
-### 4. Create Anime Post
-**Endpoint:** `POST /api/post`
-
-**Headers:**
-```
-Authorization: Bearer your_jwt_token
-```
+## Create Task
+**Endpoint:** `/tasks.php`  
+**Method:** `POST`  
 
 **Request Body:**
 ```json
 {
-  "anime_title": "Hibike Euphonium",
-  "review": "Akiramerunowa saigo made ippai ganbatte kara nishite kudasai!",
-  "rating": 10
+    "idtask": "task_id",
+    "categoryname": "category_name",
+    "membername": "member_name",
+    "taskname": "task_name",
+    "frequency": "everyday",
+    "period": 1,
+    "selectdate": "YYYY-MM-DD",
+    "time": "HH:MM:SS"
 }
 ```
 
 **Response:**
 ```json
 {
-  "status": "success",
-  "message": "Anime post created successfully"
+    "message": "Task created"
 }
 ```
 
-### 5. Get All Anime Posts
-**Endpoint:** `GET /api/posts`
+## Get All Tasks
+**Endpoint:** `/tasks.php`  
+**Method:** `GET`  
 
 **Response:**
 ```json
 [
-  {
-    "id": 1,
-    "user_id": 1,
-    "anime_title": "Hibike Euphonium",
-    "review": "Akiramerunowa saigo made ippai ganbatte kara nishite kudasai!",
-    "rating": 10,
-    "created_at": "2025-03-02 12:30:00"
-  }
+    {
+        "idtask": "task_id",
+        "userid": "user_id",
+        "categoryname": "category_name",
+        "membername": "member_name",
+        "taskname": "task_name",
+        "frequency": "everyday",
+        "period": 1,
+        "selectdate": "YYYY-MM-DD",
+        "time": "HH:MM:SS"
+    },
+    ...
 ]
 ```
 
-### 6. Get User Posts
-**Endpoint:** `GET /api/user/posts`
+## Update Task
+**Endpoint:** `/tasks.php`  
+**Method:** `PUT`  
 
-**Headers:**
-```
-Authorization: Bearer your_jwt_token
+**Request Body:**
+```json
+{
+    "idtask": "task_id",
+    "categoryname": "category_name",
+    "membername": "member_name",
+    "taskname": "task_name",
+    "frequency": "everyday",
+    "period": 1,
+    "selectdate": "YYYY-MM-DD",
+    "time": "HH:MM:SS"
+}
 ```
 
 **Response:**
 ```json
-[
-  {
-    "id": 1,
-    "anime_title": "Hibike Euphonium",
-    "review": "Akiramerunowa saigo made ippai ganbatte kara nishite kudasai!",
-    "rating": 10,
-    "created_at": "2025-03-02 12:30:00"
-  }
-]
+{
+    "message": "Task updated"
+}
 ```
 
-## Authentication & Security
-- Password pengguna dienkripsi menggunakan bcrypt.
-- JWT (JSON Web Token) digunakan untuk autentikasi pengguna.
-- Semua endpoint yang membutuhkan autentikasi harus menyertakan token dalam header `Authorization`.
+## Delete Task
+**Endpoint:** `/tasks.php`  
+**Method:** `DELETE`  
 
-## Notes
-- Endpoint dapat diperluas untuk fitur tambahan seperti update profil, hapus postingan, dsb.
-- Pastikan API ini menggunakan HTTPS untuk keamanan data.
-- Pengguna hanya dapat melihat postingan yang mereka buat di halaman profil mereka sendiri.
+**Query Parameter:** `idtask`  
+
+**Response:**
+```json
+{
+    "message": "Task deleted"
+}
+```
+
+## Forgot Password
+**Endpoint:** `/tasks.php?action=forgot_password`  
+**Method:** `POST`  
+
+**Request Body:**
+```json
+{
+    "email": "your_email",
+    "username": "your_username",
+    "new_password": "your_new_password"
+}
+```
+
+**Response:**
+```json
+{
+    "message": "Password updated successfully"
+}
+```
+
+# Database Structure
+
+## Table: `tasks`
+| Column       | Type                                       | Constraints       |
+|-------------|------------------------------------------|------------------|
+| idtask      | INT(11)                                   | PRIMARY KEY, AUTO_INCREMENT |
+| userid      | INT(11)                                   | FOREIGN KEY(users.id) |
+| categoryname| VARCHAR(50)                               | NULLABLE         |
+| membername  | VARCHAR(50)                               | NULLABLE         |
+| taskname    | VARCHAR(50)                               | NULLABLE         |
+| frequency   | ENUM('everyday','everyweek','everymonth','everyyear') | NULLABLE |
+| period      | INT(11)                                   | NULLABLE         |
+| selectdate  | DATE                                      | NULLABLE         |
+| time        | TIME                                      | NULLABLE         |
+
+## Table: `users`
+| Column    | Type         | Constraints      |
+|-----------|------------|-----------------|
+| id        | INT(11)     | PRIMARY KEY, AUTO_INCREMENT |
+| username  | VARCHAR(50) | UNIQUE, NOT NULL |
+| email     | VARCHAR(50) | UNIQUE, NOT NULL |
+| password  | VARCHAR(255)| NOT NULL         |
+| token     | VARCHAR(255)| NULLABLE         |
+
+# Dependencies
+To handle JWT authentication, install the following package:
+```
+composer require firebase/php-jwt
+```
