@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 16, 2025 at 09:29 AM
+-- Generation Time: Mar 18, 2025 at 12:39 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,12 +28,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tasks` (
-  `idtask` varchar(50) NOT NULL,
+  `idtask` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
   `categoryname` varchar(50) DEFAULT NULL,
   `membername` varchar(50) DEFAULT NULL,
   `taskname` varchar(50) DEFAULT NULL,
-  `radio` enum('everyday','everyweek','everymonth','everyyear') DEFAULT NULL,
+  `frequency` enum('everyday','everyweek','everymonth','everyyear') DEFAULT NULL,
   `period` int(11) DEFAULT NULL,
   `selectdate` date DEFAULT NULL,
   `time` time DEFAULT NULL
@@ -43,8 +43,8 @@ CREATE TABLE `tasks` (
 -- Dumping data for table `tasks`
 --
 
-INSERT INTO `tasks` (`idtask`, `userid`, `categoryname`, `membername`, `taskname`, `radio`, `period`, `selectdate`, `time`) VALUES
-('TASK-123', 4, 'Belanja', 'John', 'Beli susu', 'everyday', 1, '2024-03-15', '15:00:00');
+INSERT INTO `tasks` (`idtask`, `userid`, `categoryname`, `membername`, `taskname`, `frequency`, `period`, `selectdate`, `time`) VALUES
+(1, 4, 'belanja', 'minatoyukina', 'task_name', 'everyday', 1, '2024-02-03', '12:00:00');
 
 -- --------------------------------------------------------
 
@@ -65,9 +65,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `token`) VALUES
-(2, 'nama_user', 'email@example.com', '$2y$10$NfjJMfveOMlzv2P0qcjmgOu0QoiqcVXrFGXiv.Zig.BUHfWF9zRoC', '7440cba59bc883f4cc548ed3c0e2ed86'),
-(3, 'coba', 'coba@example.com', '$2y$10$ASdxhgDIkl64P9ekqLR2Re4E5/fXnZHrXLGwhmExCR0Ct4UgyDDa6', NULL),
-(4, 'lagi', 'lagi@example.com', '$2y$10$Vq0IkD3JlUBm/vNp7Okc/efGQy4wo2xw3eqs62HuSy0qjKJtThUo6', '0d0547de163ead8b4483f430179445fb');
+(1, 'kousakareina', 'kousakareina@gmail.com', '$2y$10$qWLXUksP.bHCk9WYOSvZqebAID6HY9F.SadzVVwiITkN.AURb0SMS', NULL),
+(2, 'horikitasuzune', 'horikitasuzune@gmail.com', '$2y$10$vsjte6kihlTdACWHC7teJuE9c.Oxv6joYxGoqKz.scJ//8wYd52xy', NULL),
+(3, 'inouetakina', 'inouetakina@gmail.com', '$2y$10$8O23t9chDEOhSluN3Q2ouO10GJ7/LPZuLGvnBlaRh7eadNYJzWjQm', NULL),
+(4, 'minatoyukina', 'minatoyukina@gmail.com', '$2y$10$0c5gFxMOHj9dN1E/tgkadO4wvypS53xG9xQ/goSJRfxF4wF7Z7Ew6', '71eab3f4398d26759c63e136a9f19579');
 
 --
 -- Indexes for dumped tables
@@ -91,6 +92,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `idtask` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`

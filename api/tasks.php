@@ -27,11 +27,11 @@ $method = $_SERVER['REQUEST_METHOD'];
 $user_id = authenticate($conn);
 
 // CREATE TASK
-if($method == 'POST'){
+if($method == 'POST' && !isset($_GET['action'])){
     $data = json_decode(file_get_contents("php://input"));
     
     $stmt = $conn->prepare("INSERT INTO tasks 
-        (idtask, userid, categoryname, membername, taskname, radio, period, selectdate, time)
+        (idtask, userid, categoryname, membername, taskname, frequency, period, selectdate, time)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     $success = $stmt->execute([
@@ -40,7 +40,7 @@ if($method == 'POST'){
         $data->categoryname,
         $data->membername,
         $data->taskname,
-        $data->radio,
+        $data->frequency,
         $data->period,
         $data->selectdate,
         $data->time
@@ -69,7 +69,7 @@ if($method == 'PUT'){
         categoryname = ?,
         membername = ?,
         taskname = ?,
-        radio = ?,
+        frequency = ?,
         period = ?,
         selectdate = ?,
         time = ?
@@ -79,7 +79,7 @@ if($method == 'PUT'){
         $data->categoryname,
         $data->membername,
         $data->taskname,
-        $data->radio,
+        $data->frequency,
         $data->period,
         $data->selectdate,
         $data->time,
@@ -101,6 +101,31 @@ if($method == 'DELETE'){
     
     if($success){
         echo json_encode(["message" => "Task deleted"]);
+    }
+}
+
+// FORGOT PASSWORD
+if($method == 'POST' && isset($_GET['action']) && $_GET['action'] == 'forgot_password'){
+    $data = json_decode(file_get_contents("php://input"));
+    
+    if(isset($data->email) && isset($data->username) && isset($data->new_password)){
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? AND username = ?");
+        $stmt->execute([$data->email, $data->username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if($user){
+            $hashed_password = password_hash($data->new_password, PASSWORD_DEFAULT);
+            $update = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
+            $update->execute([$hashed_password, $user['id']]);
+            
+            echo json_encode(["message" => "Password updated successfully"]);
+        } else {
+            http_response_code(404);
+            echo json_encode(["message" => "User not found"]);
+        }
+    } else {
+        http_response_code(400);
+        echo json_encode(["message" => "Invalid request data"]);
     }
 }
 ?>
