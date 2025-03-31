@@ -9,10 +9,10 @@ abstract class AuthRemoteDataSource {
   Future<UserModel> login(String email, String password);
 }
 
-class AuthRemoteDataSourceImp extends AuthRemoteDataSource {
+class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   final http.Client client;
 
-  AuthRemoteDataSourceImp({required this.client});
+  AuthRemoteDataSourceImpl({required this.client});
 
   @override
   Future<UserModel> register(
@@ -32,8 +32,7 @@ class AuthRemoteDataSourceImp extends AuthRemoteDataSource {
       final jsonData = json.decode(response.body);
       return UserModel.fromJson(jsonData);
     } else {
-      throw const StatusCodeException(
-          message: 'Username or email already registered');
+      throw ServerException();
     }
   }
 
@@ -51,7 +50,7 @@ class AuthRemoteDataSourceImp extends AuthRemoteDataSource {
 
       return UserModel.fromJson(jsonData);
     } else {
-      throw const StatusCodeException(message: 'Incorrect password or email');
+      throw ServerException();
     }
   }
 }

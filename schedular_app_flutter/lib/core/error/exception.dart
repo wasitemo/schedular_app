@@ -1,11 +1,3 @@
-class StatusCodeException implements Exception {
-  final String message;
+class ServerException implements Exception {}
 
-  const StatusCodeException({required this.message});
-}
-
-class GeneralException implements Exception {
-  final String message;
-
-  const GeneralException({required this.message});
-}
+class CacheException implements Exception {}
