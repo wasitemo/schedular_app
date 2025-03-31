@@ -2,7 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:schedular_app_flutter/core/error/exception.dart';
 import 'package:schedular_app_flutter/core/error/failure.dart';
-import 'package:schedular_app_flutter/feature/auth/data/data_sources/register_data_source.dart';
+import 'package:schedular_app_flutter/feature/auth/data/data_sources/remote/register_remote_data_source.dart';
 import 'package:schedular_app_flutter/feature/auth/data/model/register_model.dart';
 import 'package:schedular_app_flutter/feature/auth/domain/entities/register_entity.dart';
 import 'package:schedular_app_flutter/feature/auth/domain/repositories/register_repository.dart';
