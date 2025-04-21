@@ -16,7 +16,11 @@ class AuthAuthenticated extends AuthState {
   AuthAuthenticated(this.userEntity);
 }
 
-class AuthRegistered extends AuthState {}
+class AuthRegistered extends AuthState {
+  final String message;
+
+  AuthRegistered({required this.message});
+}
 
 class AuthUnAuthenticated extends AuthState {}
 

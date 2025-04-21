@@ -17,7 +17,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   @override
   Future<UserModel> register(
       String username, String email, String password) async {
-    final url = Uri.http('127.0.0.1', 'schedular-app/register.php');
+    final url = Uri.http('192.168.1.101', 'schedular-app/register.php');
     final response = await client.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -25,14 +25,15 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
         'username': username,
         'email': email,
         'password': password,
+        'token': ""
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       final jsonData = json.decode(response.body);
       return UserModel.fromJson(jsonData);
     } else {
-      throw ServerException();
+      throw ServerException(message: "Email or Username has been registered");
     }
   }
 
@@ -50,7 +51,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
       return UserModel.fromJson(jsonData);
     } else {
-      throw ServerException();
+      throw ServerException(message: 'Server issue');
     }
   }
 }

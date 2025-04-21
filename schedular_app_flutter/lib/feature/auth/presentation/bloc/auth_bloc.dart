@@ -35,7 +35,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
         );
       }, (ifRightRegisterResult) {
-        emit(AuthRegistered());
+        emit(AuthRegistered(message: "Registered Success"));
       });
     });
 
@@ -80,8 +80,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   String _mapFailureToMessage(Failure failure) {
-    if (failure is ServerFailure) return "Server Error";
-    if (failure is CacheFailure) return "No Internet Connection";
-    return "Unexpected Error";
+    return failure.message;
   }
 }

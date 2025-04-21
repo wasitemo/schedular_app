@@ -1,17 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
-part 'user_entity.g.dart';
-
 @HiveType(typeId: 0)
 class UserEntity extends Equatable {
-  @HiveField(1)
+  @HiveField(0)
   final String username;
-  @HiveField(2)
+  @HiveField(1)
   final String email;
-  @HiveField(3)
+  @HiveField(2)
   final String password;
-  @HiveField(4)
+  @HiveField(3)
   final String? token;
 
   const UserEntity({

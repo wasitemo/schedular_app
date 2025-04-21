@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:schedular_app_flutter/core/utils/parse_string_json.dart';
 import 'package:schedular_app_flutter/feature/auth/domain/entities/user_entity.dart';
 
 part 'user_model.g.dart';
@@ -14,10 +15,10 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      username: json['username'],
-      email: json['email'],
-      password: json['password'],
-      token: json.containsKey('token') ? json['token'] : null,
+      username: ParseStringJson.parseString(json['username']),
+      email: ParseStringJson.parseString(json['email']),
+      password: ParseStringJson.parseString(json['password']),
+      token: json['token'] != null ? json['token'] as String : null,
     );
   }
 

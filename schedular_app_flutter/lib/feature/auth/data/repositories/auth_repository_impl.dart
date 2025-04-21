@@ -8,27 +8,26 @@ import 'package:schedular_app_flutter/feature/auth/domain/entities/user_entity.d
 import 'package:schedular_app_flutter/feature/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
-  final AuthRemoteDataSourceImpl remoteDataSourceImpl;
-  final AuthLocalDataSourceImpl localDataSourceImpl;
-  final NetworkInfoImpl networkInfoImpl;
+  final AuthRemoteDataSource remoteDataSource;
+  final AuthLocalDataSource localDataSource;
+  final NetworkInfo networkInfo;
 
   AuthRepositoryImpl({
-    required this.remoteDataSourceImpl,
-    required this.localDataSourceImpl,
-    required this.networkInfoImpl,
+    required this.remoteDataSource,
+    required this.localDataSource,
+    required this.networkInfo,
   });
 
   @override
   Future<Either<Failure, UserEntity>> register(
       String username, String email, String password) async {
-    if (await networkInfoImpl.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
-        final user =
-            await remoteDataSourceImpl.register(username, email, password);
+        final user = await remoteDataSource.register(username, email, password);
 
         return Right(user);
-      } on ServerException {
-        return Left(ServerFailure());
+      } on ServerException catch (e) {
+        return Left(ServerFailure(message: e.message));
       }
     } else {
       return Left(CacheFailure());
@@ -38,14 +37,18 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Either<Failure, UserEntity>> login(
       String email, String password) async {
-    if (await networkInfoImpl.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
-        final user = await remoteDataSourceImpl.login(email, password);
-        await localDataSourceImpl.cacheToken(user.token ?? "");
+        final user = await remoteDataSource.login(email, password);
+        final token = user.token;
+
+        if (token != null) {
+          await localDataSource.cacheToken(token);
+        }
 
         return Right(user);
-      } on ServerException {
-        return Left(ServerFailure());
+      } on ServerException catch (e) {
+        return Left(ServerFailure(message: e.message));
       }
     } else {
       return Left(CacheFailure());
@@ -53,8 +56,8 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, String?>> getToken() async {
-    final token = await localDataSourceImpl.getToken();
+  Future<Either<Failure, String>> getToken() async {
+    final token = await localDataSource.getToken();
 
     if (token != null) {
       return Right(token);
@@ -65,6 +68,6 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<void> logout() async {
-    await localDataSourceImpl.clearToken();
+    await localDataSource.clearToken();
   }
 }

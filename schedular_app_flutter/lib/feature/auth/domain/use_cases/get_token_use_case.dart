@@ -7,7 +7,7 @@ class GetTokenUseCase {
 
   const GetTokenUseCase({required this.authRepository});
 
-  Future<Either<Failure, String?>> execute() async {
+  Future<Either<Failure, String>> execute() async {
     return await authRepository.getToken();
   }
 }
