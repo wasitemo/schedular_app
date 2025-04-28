@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:schedular_app_flutter/core/utils/input_validator.dart';
 import 'package:schedular_app_flutter/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:schedular_app_flutter/feature/auth/presentation/bloc/auth_state.dart';
+import 'package:schedular_app_flutter/feature/auth/presentation/widgets/password_field.dart';
 
 import '../bloc/auth_event.dart';
 
@@ -47,59 +48,88 @@ class _RegisterPageState extends State<RegisterPage> {
             );
           }
         },
-        child: Column(
-          children: [
-            Center(
-              child: Text('Register'),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Center(
+                  heightFactor: 7,
+                  child: Text(
+                    'Register',
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: usernameController,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(labelText: 'Username'),
+                        validator: InputValidator.isUserValidUsername,
+                      ),
+                      SizedBox(height: 29),
+                      TextFormField(
+                        controller: emailController,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(labelText: 'Email'),
+                        validator: InputValidator.isEmailValid,
+                      ),
+                      SizedBox(height: 29),
+                      PasswordField(
+                        passwordController: passwordController,
+                        validator: InputValidator.isValidPassword,
+                        label: 'Password',
+                      ),
+                      SizedBox(height: 45),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _onRegister,
+                          child: Text("Register"),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Sudah punya akun?',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.outline,
+                                ),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: Size(0, 0),
+                            ),
+                            child: Text(
+                              "Login",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.outline,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: usernameController,
-                    decoration: InputDecoration(labelText: 'Username'),
-                    validator: (value) {
-                      if (!InputValidator.isUserValidUsername(value ?? "")) {
-                        return "Username must be filled in";
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: emailController,
-                    decoration: InputDecoration(labelText: 'Email'),
-                    validator: (value) {
-                      if (!InputValidator.isEmailValid(value ?? "")) {
-                        return "Invalid email";
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: passwordController,
-                    decoration: InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                    validator: (value) {
-                      if (!InputValidator.isValidPassword(value ?? "")) {
-                        return "Invalid password";
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _onRegister,
-                    child: Text("Register"),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.pushNamed(context, '/login'),
-                    child: Text("Sudah punya akun? Login"),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
