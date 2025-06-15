@@ -1,7 +1,7 @@
-# API Documentation
+# Dokumentasi API
 
-## Authentication
-All endpoints require a Bearer token in the Authorization header.
+## Autentikasi
+Semua endpoint membutuhkan token Bearer di header Authorization.
 
 ## Register
 **Endpoint:** `/register.php`  
@@ -153,32 +153,45 @@ All endpoints require a Bearer token in the Authorization header.
 }
 ```
 
-# Database Structure
+## Pengujian API dengan Postman
+Berikut adalah langkah-langkah untuk menguji API menggunakan Postman:
 
-## Table: `tasks`
-| Column       | Type                                       | Constraints       |
-|-------------|------------------------------------------|------------------|
-| idtask      | INT(11)                                   | PRIMARY KEY, AUTO_INCREMENT |
-| userid      | INT(11)                                   | FOREIGN KEY(users.id) |
-| categoryname| VARCHAR(50)                               | NULLABLE         |
-| membername  | VARCHAR(50)                               | NULLABLE         |
-| taskname    | VARCHAR(50)                               | NULLABLE         |
-| frequency   | ENUM('everyday','everyweek','everymonth','everyyear') | NULLABLE |
-| period      | INT(11)                                   | NULLABLE         |
-| selectdate  | DATE                                      | NULLABLE         |
-| time        | TIME                                      | NULLABLE         |
+1. Buka Postman dan buat permintaan baru.
+2. Atur metode permintaan (misalnya, POST, GET, PUT, DELETE).
+3. Masukkan URL endpoint (misalnya, `http://localhost/schedular_app/api/register.php`).
+4. Untuk endpoint yang membutuhkan autentikasi, tambahkan token Bearer di header Authorization:
+   ```
+   Authorization: Bearer your_token
+   ```
+5. Untuk endpoint yang membutuhkan body permintaan, buka tab Body, pilih `raw`, dan atur tipe ke `JSON`. Masukkan payload JSON sesuai dokumentasi.
+6. Klik `Send` untuk menjalankan permintaan dan melihat respons.
 
-## Table: `users`
-| Column    | Type         | Constraints      |
-|-----------|------------|-----------------|
-| id        | INT(11)     | PRIMARY KEY, AUTO_INCREMENT |
-| username  | VARCHAR(50) | UNIQUE, NOT NULL |
-| email     | VARCHAR(50) | UNIQUE, NOT NULL |
-| password  | VARCHAR(255)| NOT NULL         |
-| token     | VARCHAR(255)| NULLABLE         |
+# Struktur Database
 
-# Dependencies
-To handle JWT authentication, install the following package:
+## Tabel: `tasks`
+| Kolom        | Tipe                                       | Konstraint       |
+|--------------|-------------------------------------------|------------------|
+| idtask       | INT(11)                                   | PRIMARY KEY, AUTO_INCREMENT |
+| userid       | INT(11)                                   | FOREIGN KEY(users.id) |
+| categoryname | VARCHAR(50)                               | NULLABLE         |
+| membername   | VARCHAR(50)                               | NULLABLE         |
+| taskname     | VARCHAR(50)                               | NULLABLE         |
+| frequency    | ENUM('everyday','everyweek','everymonth','everyyear') | NULLABLE |
+| period       | INT(11)                                   | NULLABLE         |
+| selectdate   | DATE                                      | NULLABLE         |
+| time         | TIME                                      | NULLABLE         |
+
+## Tabel: `users`
+| Kolom     | Tipe         | Konstraint      |
+|-----------|--------------|-----------------|
+| id        | INT(11)      | PRIMARY KEY, AUTO_INCREMENT |
+| username  | VARCHAR(50)  | UNIQUE, NOT NULL |
+| email     | VARCHAR(50)  | UNIQUE, NOT NULL |
+| password  | VARCHAR(255) | NOT NULL         |
+| token     | VARCHAR(255) | NULLABLE         |
+
+# Dependensi
+Untuk menangani autentikasi JWT, instal paket berikut:
 ```
 composer require firebase/php-jwt
 ```

@@ -23,17 +23,11 @@ function authenticate($conn) {
     return $user['id'];
 }
 
-$method = $_SERVER['REQUEST_METHOD'];
-$user_id = authenticate($conn);
-
-// CREATE TASK
-if($method == 'POST' && !isset($_GET['action'])){
-    $data = json_decode(file_get_contents("php://input"));
-    
+// Serverless function: Create Task
+function createTask($conn, $data, $user_id) {
     $stmt = $conn->prepare("INSERT INTO tasks 
         (idtask, userid, categoryname, membername, taskname, frequency, period, selectdate, time)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    
     $success = $stmt->execute([
         $data->idtask,
         $user_id,
@@ -52,19 +46,15 @@ if($method == 'POST' && !isset($_GET['action'])){
     }
 }
 
-// GET ALL TASKS
-if($method == 'GET'){
+// Serverless function: Get All Tasks
+function getAllTasks($conn, $user_id) {
     $stmt = $conn->prepare("SELECT * FROM tasks WHERE userid = ?");
     $stmt->execute([$user_id]);
-    $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    echo json_encode($tasks);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// UPDATE TASK
-if($method == 'PUT'){
-    $data = json_decode(file_get_contents("php://input"));
-    
+// Serverless function: Update Task
+function updateTask($conn, $data, $user_id) {
     $stmt = $conn->prepare("UPDATE tasks SET 
         categoryname = ?,
         membername = ?,
@@ -74,7 +64,6 @@ if($method == 'PUT'){
         selectdate = ?,
         time = ?
         WHERE idtask = ? AND userid = ?");
-    
     $success = $stmt->execute([
         $data->categoryname,
         $data->membername,
@@ -92,16 +81,41 @@ if($method == 'PUT'){
     }
 }
 
-// DELETE TASK
-if($method == 'DELETE'){
-    $idtask = $_GET['idtask'];
-    
+// Serverless function: Delete Task
+function deleteTask($conn, $idtask, $user_id) {
     $stmt = $conn->prepare("DELETE FROM tasks WHERE idtask = ? AND userid = ?");
     $success = $stmt->execute([$idtask, $user_id]);
     
     if($success){
         echo json_encode(["message" => "Task deleted"]);
     }
+}
+
+$method = $_SERVER['REQUEST_METHOD'];
+$user_id = authenticate($conn);
+
+// CREATE TASK
+if($method == 'POST' && !isset($_GET['action'])){
+    $data = json_decode(file_get_contents("php://input"));
+    createTask($conn, $data, $user_id);
+}
+
+// GET ALL TASKS
+if($method == 'GET'){
+    $tasks = getAllTasks($conn, $user_id);
+    echo json_encode($tasks);
+}
+
+// UPDATE TASK
+if($method == 'PUT'){
+    $data = json_decode(file_get_contents("php://input"));
+    updateTask($conn, $data, $user_id);
+}
+
+// DELETE TASK
+if($method == 'DELETE'){
+    $idtask = $_GET['idtask'];
+    deleteTask($conn, $idtask, $user_id);
 }
 
 // FORGOT PASSWORD
