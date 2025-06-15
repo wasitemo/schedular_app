@@ -21,12 +21,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    context.read<AuthBloc>().add(GetTokenEvent());
-  }
-
   void _onRegister() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
@@ -114,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           TextButton(
                             onPressed: () {
-                              context.go('login');
+                              context.go('/login');
                             },
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.zero,

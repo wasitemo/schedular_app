@@ -64,10 +64,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(
           AuthAuthenticated(
             UserEntity(
-                username: '',
-                email: '',
-                password: '',
-                token: ifRightGetTokenResult),
+              username: '',
+              email: '',
+              password: '',
+              token: ifRightGetTokenResult,
+            ),
           ),
         );
       });

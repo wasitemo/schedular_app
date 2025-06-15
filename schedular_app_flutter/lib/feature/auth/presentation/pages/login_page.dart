@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             TextButton(
                               onPressed: () {
-                                context.go('register');
+                                context.go('/');
                               },
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,

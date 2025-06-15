@@ -39,7 +39,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<UserModel> login(String email, String password) async {
-    final url = Uri.http('127.0.0.1', 'schedular-app/login.php');
+    final url = Uri.http('192.168.1.101', 'schedular-app/login.php');
     final response = await client.post(url,
         headers: {'Content-Type': 'application/json'},
         body: json.encode(

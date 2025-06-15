@@ -23,7 +23,6 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<String?> getToken() async {
-    await box.get('token');
-    return null;
+    return await box.get('token') as String?;
   }
 }
