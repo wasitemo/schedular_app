@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:schedular_app_flutter/config/routes/my_routes.dart';
@@ -9,8 +10,9 @@ import 'package:schedular_app_flutter/feature/auth/presentation/bloc/auth_event.
 
 import 'injection_container.dart' as di;
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await Hive.initFlutter();
   await di.init();
   runApp(const MyApp());
