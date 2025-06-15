@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:schedular_app_flutter/core/utils/input_validator.dart';
 import 'package:schedular_app_flutter/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:schedular_app_flutter/feature/auth/presentation/bloc/auth_state.dart';
@@ -19,6 +20,12 @@ class _RegisterPageState extends State<RegisterPage> {
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthBloc>().add(GetTokenEvent());
+  }
 
   void _onRegister() {
     if (_formKey.currentState!.validate()) {
@@ -106,7 +113,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.go('login');
+                            },
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.zero,
                               minimumSize: Size(0, 0),
