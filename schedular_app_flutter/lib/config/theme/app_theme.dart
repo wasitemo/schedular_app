@@ -3,11 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:schedular_app_flutter/config/theme/theme_color.dart';
 
 ThemeData appTheme() {
-  final materialTheme = MaterialTheme(const TextTheme());
-  final lightColorScheme = materialTheme.light().colorScheme;
+  final ColorScheme lightColorScheme = MaterialTheme.lightScheme();
   final baseTextTheme = GoogleFonts.lusitanaTextTheme();
 
   return ThemeData(
+    useMaterial3: true,
+    brightness: lightColorScheme.brightness,
+    colorScheme: lightColorScheme,
     scaffoldBackgroundColor: lightColorScheme.surfaceContainerLowest,
     textTheme: baseTextTheme.copyWith(
       headlineLarge: baseTextTheme.headlineLarge?.copyWith(
