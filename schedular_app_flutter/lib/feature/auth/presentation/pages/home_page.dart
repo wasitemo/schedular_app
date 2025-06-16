@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
         width: 80,
         child: FloatingActionButton(
           onPressed: () {},
-          backgroundColor: Theme.of(context).colorScheme.onSurface,
+          backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
