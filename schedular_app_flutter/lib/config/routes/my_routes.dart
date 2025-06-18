@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:schedular_app_flutter/feature/auth/presentation/bloc/auth_state.dart';
 import 'package:schedular_app_flutter/feature/auth/presentation/pages/login_page.dart';
 import 'package:schedular_app_flutter/feature/auth/presentation/pages/register_page.dart';
+import 'package:schedular_app_flutter/feature/task/presentation/pages/add_task_page.dart';
 import 'package:schedular_app_flutter/feature/task/presentation/pages/home_page.dart';
 
 import '../../feature/auth/presentation/bloc/auth_bloc.dart';
@@ -77,6 +78,13 @@ class MyRouter {
             name: 'home',
             pageBuilder: (ctx, state) => NoTransitionPage(
               child: HomePage(),
+            ),
+          ),
+          GoRoute(
+            path: '/add_task',
+            name: 'add_task',
+            pageBuilder: (ctx, state) => NoTransitionPage(
+              child: AddTaskPage(),
             ),
           ),
         ],

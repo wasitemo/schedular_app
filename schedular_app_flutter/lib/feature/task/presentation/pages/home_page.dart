@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:schedular_app_flutter/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:schedular_app_flutter/feature/auth/presentation/bloc/auth_event.dart';
 import 'package:schedular_app_flutter/feature/task/presentation/widgets/item_category_card.dart';
@@ -26,7 +27,9 @@ class HomePage extends StatelessWidget {
         height: 80,
         width: 80,
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            context.push('/add_task');
+          },
           backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
