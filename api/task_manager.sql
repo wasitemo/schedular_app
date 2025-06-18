@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tasks` (
-  `idtask` int(11) NOT NULL,
+  `idtask` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `categoryname` varchar(50) DEFAULT NULL,
   `membername` varchar(50) DEFAULT NULL,
@@ -53,7 +53,7 @@ INSERT INTO `tasks` (`idtask`, `userid`, `categoryname`, `membername`, `taskname
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
