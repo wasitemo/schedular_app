@@ -26,10 +26,9 @@ function authenticate($conn) {
 // Serverless function: Create Task
 function createTask($conn, $data, $user_id) {
     $stmt = $conn->prepare("INSERT INTO tasks 
-        (idtask, userid, categoryname, membername, taskname, frequency, period, selectdate, time)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        (userid, categoryname, membername, taskname, frequency, period, selectdate, time)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     $success = $stmt->execute([
-        $data->idtask,
         $user_id,
         $data->categoryname,
         $data->membername,
