@@ -13,10 +13,14 @@ import 'package:schedular_app_flutter/feature/auth/domain/use_cases/login_use_ca
 import 'package:schedular_app_flutter/feature/auth/domain/use_cases/logout_use_case.dart';
 import 'package:schedular_app_flutter/feature/auth/domain/use_cases/register_use_case.dart';
 import 'package:schedular_app_flutter/feature/auth/presentation/bloc/auth_bloc.dart';
+import 'package:schedular_app_flutter/feature/task/data/data_sources/remote/task_remote_data_source.dart';
+import 'package:schedular_app_flutter/feature/task/data/repositories/task_repository_impl.dart';
+import 'package:schedular_app_flutter/feature/task/domain/repositories/task_repository.dart';
+import 'package:schedular_app_flutter/feature/task/domain/use_cases/add_task_use_case.dart';
+import 'package:schedular_app_flutter/feature/task/presentation/bloc/task_bloc.dart';
 
 var sl = GetIt.instance;
 
-//Feature auth
 Future<void> init() async {
   Hive.registerAdapter(UserModelAdapter());
   final box = await Hive.openBox('token');
@@ -27,6 +31,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => Connectivity());
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl());
 
+  //Feature auth
   //bloc
   sl.registerFactory(
     () => AuthBloc(
@@ -57,4 +62,27 @@ Future<void> init() async {
       () => AuthRemoteDataSourceImpl(client: sl()));
   sl.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(box: sl()));
+
+  //Feature task
+  sl.registerFactory(
+    () => TaskBloc(addTaskUseCase: sl()),
+  );
+
+  //use case
+  sl.registerLazySingleton(
+    () => AddTaskUseCase(taskRepository: sl()),
+  );
+
+  //repository implementation
+  sl.registerLazySingleton<TaskRepository>(
+    () => TaskRepositoryImpl(
+      taskRemoteDataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  //data source
+  sl.registerLazySingleton<TaskRemoteDataSource>(
+    () => TaskRemoteDataSourceImpl(client: sl()),
+  );
 }
