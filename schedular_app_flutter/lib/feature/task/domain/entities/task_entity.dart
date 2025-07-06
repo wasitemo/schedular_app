@@ -1,5 +1,12 @@
 import 'package:equatable/equatable.dart';
 
+enum FrequencyTask {
+  Everyday,
+  EveryWeek,
+  EveryMonth,
+  EveryYear,
+}
+
 class TaskEntity extends Equatable {
   final int? idTask;
   final int? userId;
