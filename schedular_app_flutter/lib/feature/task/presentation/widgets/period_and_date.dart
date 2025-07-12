@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class PeriodAndDate extends StatelessWidget {
+class PeriodAndDate extends StatefulWidget {
   final TextEditingController periodController;
   final String? Function(String?)? periodValidator;
   final String periodLabel;
@@ -19,24 +20,51 @@ class PeriodAndDate extends StatelessWidget {
   });
 
   @override
+  State<PeriodAndDate> createState() => _PeriodAndDateState();
+}
+
+class _PeriodAndDateState extends State<PeriodAndDate> {
+  DateTime? selectedDate;
+
+  @override
   Widget build(BuildContext context) {
+    void datePicker() async {
+      final now = DateTime.now();
+      final firstDate = DateTime(now.year, now.month, now.day);
+      final lastDate = DateTime(now.year, now.month + 1, 0);
+      final pickedDate = await showDatePicker(
+        context: context,
+        firstDate: firstDate,
+        lastDate: lastDate,
+      );
+
+      setState(() {
+        if (pickedDate != null) {
+          selectedDate = pickedDate;
+          widget.dateController.text = DateFormat.yMd().format(pickedDate);
+        }
+      });
+    }
+
     return Column(
       children: [
         const SizedBox(height: 13),
         TextFormField(
-          controller: periodController,
+          controller: widget.periodController,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: periodValidator,
-          decoration: InputDecoration(labelText: periodLabel),
+          validator: widget.periodValidator,
+          decoration: InputDecoration(labelText: widget.periodLabel),
         ),
         const SizedBox(height: 29),
         TextFormField(
-          controller: dateController,
+          controller: widget.dateController,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: dateValidator,
+          validator: widget.dateValidator,
           decoration: InputDecoration(
-            labelText: dateLabel,
+            labelText: widget.dateLabel,
           ),
+          readOnly: true,
+          onTap: datePicker,
         ),
         const SizedBox(height: 13),
       ],
