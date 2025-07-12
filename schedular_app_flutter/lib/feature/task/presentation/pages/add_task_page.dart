@@ -22,6 +22,21 @@ class _AddTaskPageState extends State<AddTaskPage> {
   final periodController = TextEditingController();
   final dateController = TextEditingController();
   final timeController = TextEditingController();
+  TimeOfDay? _selectedTime;
+
+  void _timePicker() async {
+    final pickedTime = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime ?? TimeOfDay.now(),
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        _selectedTime = pickedTime;
+        timeController.text = pickedTime.format(context);
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -168,6 +183,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   controller: timeController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(labelText: 'Time'),
+                  readOnly: true,
+                  onTap: _timePicker,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 42),
