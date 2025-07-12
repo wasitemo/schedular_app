@@ -24,28 +24,28 @@ class PeriodAndDate extends StatefulWidget {
 }
 
 class _PeriodAndDateState extends State<PeriodAndDate> {
-  DateTime? selectedDate;
+  DateTime? _selectedDate;
+
+  void _datePicker() async {
+    final now = DateTime.now();
+    final firstDate = DateTime(now.year, now.month, now.day);
+    final lastDate = DateTime(now.year, now.month + 1, 0);
+    final pickedDate = await showDatePicker(
+      context: context,
+      firstDate: firstDate,
+      lastDate: lastDate,
+    );
+
+    setState(() {
+      if (pickedDate != null) {
+        _selectedDate = pickedDate;
+        widget.dateController.text = DateFormat.yMd().format(pickedDate);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    void datePicker() async {
-      final now = DateTime.now();
-      final firstDate = DateTime(now.year, now.month, now.day);
-      final lastDate = DateTime(now.year, now.month + 1, 0);
-      final pickedDate = await showDatePicker(
-        context: context,
-        firstDate: firstDate,
-        lastDate: lastDate,
-      );
-
-      setState(() {
-        if (pickedDate != null) {
-          selectedDate = pickedDate;
-          widget.dateController.text = DateFormat.yMd().format(pickedDate);
-        }
-      });
-    }
-
     return Column(
       children: [
         const SizedBox(height: 13),
@@ -64,7 +64,7 @@ class _PeriodAndDateState extends State<PeriodAndDate> {
             labelText: widget.dateLabel,
           ),
           readOnly: true,
-          onTap: datePicker,
+          onTap: _datePicker,
         ),
         const SizedBox(height: 13),
       ],
