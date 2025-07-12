@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:schedular_app_flutter/core/utils/input_validator.dart';
 import 'package:schedular_app_flutter/feature/task/domain/entities/task_entity.dart';
+import 'package:schedular_app_flutter/feature/task/presentation/widgets/input_field.dart';
+import 'package:schedular_app_flutter/feature/task/presentation/widgets/period_and_date.dart';
 
 class AddTaskPage extends StatefulWidget {
   const AddTaskPage({super.key});
@@ -57,23 +60,21 @@ class _AddTaskPageState extends State<AddTaskPage> {
             padding: const EdgeInsets.only(top: 41, left: 20, right: 20),
             child: Column(
               children: [
-                TextFormField(
-                  controller: categoryNameController,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(labelText: 'Category'),
+                InputField(
+                    inputFieldController: categoryNameController,
+                    validator: InputValidator.isValidInput,
+                    label: 'Category Name'),
+                const SizedBox(height: 29),
+                InputField(
+                  inputFieldController: memberNameController,
+                  validator: InputValidator.isValidInput,
+                  label: 'Member Name',
                 ),
                 const SizedBox(height: 29),
-                TextFormField(
-                  controller: memberNameController,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(labelText: 'Member Name'),
-                ),
-                const SizedBox(height: 29),
-                TextFormField(
-                  controller: taskNameController,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(labelText: 'Task Name'),
-                ),
+                InputField(
+                    inputFieldController: taskNameController,
+                    validator: InputValidator.isValidInput,
+                    label: 'Task Name'),
                 const SizedBox(height: 29),
                 RadioListTile<FrequencyTask>(
                     title: const Text('Everyday'),
@@ -95,7 +96,15 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         frequencyTask = value;
                       });
                     }),
-                if (frequencyTask == FrequencyTask.EveryWeek) _periodAndDate(),
+                if (frequencyTask == FrequencyTask.EveryWeek)
+                  PeriodAndDate(
+                    periodController: periodController,
+                    dateValidator: InputValidator.isValidInput,
+                    periodLabel: 'Period',
+                    dateController: dateController,
+                    periodValidator: InputValidator.isValidInput,
+                    dateLabel: 'Date',
+                  ),
                 RadioListTile<FrequencyTask>(
                     title: const Text('Every Month'),
                     value: FrequencyTask.EveryMonth,
@@ -106,7 +115,15 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         frequencyTask = value;
                       });
                     }),
-                if (frequencyTask == FrequencyTask.EveryMonth) _periodAndDate(),
+                if (frequencyTask == FrequencyTask.EveryMonth)
+                  PeriodAndDate(
+                    periodController: periodController,
+                    dateValidator: InputValidator.isValidInput,
+                    periodLabel: 'Period',
+                    dateController: dateController,
+                    periodValidator: InputValidator.isValidInput,
+                    dateLabel: 'Date',
+                  ),
                 RadioListTile<FrequencyTask>(
                     title: const Text('Every Year'),
                     value: FrequencyTask.EveryYear,
@@ -117,7 +134,15 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         frequencyTask = value;
                       });
                     }),
-                if (frequencyTask == FrequencyTask.EveryYear) _periodAndDate(),
+                if (frequencyTask == FrequencyTask.EveryYear)
+                  PeriodAndDate(
+                    periodController: periodController,
+                    dateValidator: InputValidator.isValidInput,
+                    periodLabel: 'Period',
+                    dateController: dateController,
+                    periodValidator: InputValidator.isValidInput,
+                    dateLabel: 'Date',
+                  ),
                 const SizedBox(height: 29),
                 TextFormField(
                   controller: timeController,
@@ -139,24 +164,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _periodAndDate() {
-    return Column(
-      children: [
-        TextFormField(
-          controller: periodController,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          decoration: InputDecoration(labelText: 'Period'),
-        ),
-        const SizedBox(height: 29),
-        TextFormField(
-          controller: dateController,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          decoration: InputDecoration(labelText: 'Selected Date'),
-        ),
-      ],
     );
   }
 }

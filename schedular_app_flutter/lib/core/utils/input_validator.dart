@@ -31,4 +31,11 @@ class InputValidator {
 
     return null;
   }
+
+  static String? isValidInput(String? input) {
+    if (input == null || input.isEmpty) {
+      return '$input can\'t be null';
+    }
+    return null;
+  }
 }
