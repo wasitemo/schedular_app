@@ -84,6 +84,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     onChanged: (value) {
                       setState(() {
                         frequencyTask = value;
+
+                        if (frequencyTask == FrequencyTask.Everyday) {
+                          periodController.clear();
+                          dateController.clear();
+                        }
                       });
                     }),
                 RadioListTile<FrequencyTask>(
@@ -94,6 +99,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     onChanged: (value) {
                       setState(() {
                         frequencyTask = value;
+
+                        if (frequencyTask == FrequencyTask.Everyday) {
+                          periodController.clear();
+                          dateController.clear();
+                        }
                       });
                     }),
                 if (frequencyTask == FrequencyTask.EveryWeek)
@@ -113,6 +123,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     onChanged: (value) {
                       setState(() {
                         frequencyTask = value;
+
+                        if (frequencyTask == FrequencyTask.Everyday) {
+                          periodController.clear();
+                          dateController.clear();
+                        }
                       });
                     }),
                 if (frequencyTask == FrequencyTask.EveryMonth)
@@ -132,6 +147,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     onChanged: (value) {
                       setState(() {
                         frequencyTask = value;
+
+                        if (frequencyTask == FrequencyTask.Everyday) {
+                          periodController.clear();
+                          dateController.clear();
+                        }
                       });
                     }),
                 if (frequencyTask == FrequencyTask.EveryYear)
